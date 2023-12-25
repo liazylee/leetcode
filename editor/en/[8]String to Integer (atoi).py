@@ -84,6 +84,8 @@ Since 4193 is in the range [-2<sup>31</sup>, 2<sup>31</sup> - 1], the final resu
 class Solution:
     def myAtoi(self, s: str) -> int:
         s = s.strip()
+        if not s:
+            return 0
         sign = 1 if s[0] != '-' else -1
         res = 0
         if s[0] in ['+', '-']:
@@ -93,10 +95,10 @@ class Solution:
                 break
             res = res * 10 + ord(i) - ord('0')
         res = sign * res
-        return max(-2 ** 32, min(res, 2 ** 32 - 1))
+        return max(-2 ** 31, min(res, 2 ** 31 - 1))
 
-
-print(Solution().myAtoi('42'))
+# print(Solution().myAtoi('42'))
 # print(Solution().myAtoi('   -42'))
-print(Solution().myAtoi('4193 with words 11'))
+# print(Solution().myAtoi('4193 with words 11'))
+# print(Solution().myAtoi('-91283472332'))  # -2147483648
 # leetcode submit region end(Prohibit modification and deletion)

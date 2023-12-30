@@ -1,5 +1,5 @@
 """
-<p>Given an integer array <code>nums</code> sorted in <strong>non-decreasing order</strong>, remove the duplicates <a href="https://en.wikipedia.org/wiki/In-place_algorithm" target="_blank"><strong>in-place</strong></a> such that each unique element appears only <strong>once</strong>. The <strong>relative order</strong> of the elements should be kept the <strong>same</strong>.</p>
+<p>Given an integer array <code>nums</code> sorted in <strong>non-decreasing order</strong>, remove some duplicates <a href="https://en.wikipedia.org/wiki/In-place_algorithm" target="_blank"><strong>in-place</strong></a> such that each unique element appears <strong>at most twice</strong>. The <strong>relative order</strong> of the elements should be kept the <strong>same</strong>.</p>
 
 <p>Since it is impossible to change the length of the array in some languages, you must instead have the result be placed in the <strong>first part</strong> of the array <code>nums</code>. More formally, if there are <code>k</code> elements after removing the duplicates, then the first <code>k</code> elements of <code>nums</code>&nbsp;should hold the final result. It does not matter what you leave beyond the first&nbsp;<code>k</code>&nbsp;elements.</p>
 
@@ -25,53 +25,50 @@ for (int i = 0; i &lt; k; i++) {
 
 <p>If all assertions pass, then your solution will be <strong>accepted</strong>.</p>
 
-<p>&nbsp;</p>
-<p><strong>Example 1:</strong></p>
+<p>&nbsp;</p> 
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [1,1,2]
-<strong>Output:</strong> 2, nums = [1,2,_]
-<strong>Explanation:</strong> Your function should return k = 2, with the first two elements of nums being 1 and 2 respectively.
+<strong>Input:</strong> nums = [1,1,1,2,2,3]
+<strong>Output:</strong> 5, nums = [1,1,2,2,3,_]
+<strong>Explanation:</strong> Your function should return k = 5, with the first five elements of nums being 1, 1, 2, 2 and 3 respectively.
 It does not matter what you leave beyond the returned k (hence they are underscores).
 </pre>
 
-<p><strong>Example 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>Input:</strong> nums = [0,0,1,1,1,2,2,3,3,4]
-<strong>Output:</strong> 5, nums = [0,1,2,3,4,_,_,_,_,_]
-<strong>Explanation:</strong> Your function should return k = 5, with the first five elements of nums being 0, 1, 2, 3, and 4 respectively.
+<strong>Input:</strong> nums = [0,0,1,1,1,1,2,3,3]
+<strong>Output:</strong> 7, nums = [0,0,1,1,2,3,3,_,_]
+<strong>Explanation:</strong> Your function should return k = 7, with the first seven elements of nums being 0, 0, 1, 1, 2, 3 and 3 respectively.
 It does not matter what you leave beyond the returned k (hence they are underscores).
 </pre>
 
-<p>&nbsp;</p>
+<p>&nbsp;</p> 
 <p><strong>Constraints:</strong></p>
 
-<ul>
-	<li><code>1 &lt;= nums.length &lt;= 3 * 10<sup>4</sup></code></li>
-	<li><code>-100 &lt;= nums[i] &lt;= 100</code></li>
-	<li><code>nums</code> is sorted in <strong>non-decreasing</strong> order.</li>
+<ul> 
+ <li><code>1 &lt;= nums.length &lt;= 3 * 10<sup>4</sup></code></li> 
+ <li><code>-10<sup>4</sup> &lt;= nums[i] &lt;= 10<sup>4</sup></code></li> 
+ <li><code>nums</code> is sorted in <strong>non-decreasing</strong> order.</li> 
 </ul>
-<div><div>Related Topics</div><div><li>Array</li><li>Two Pointers</li></div></div><br><div><li>👍 6054</li><li>👎 9527</li></div>
-"""
 
-# leetcode submit region begin(Prohibit modification and deletion)
+<div><div>Related Topics</div><div><li>Array</li><li>Two Pointers</li></div></div><br><div><li>👍 6327</li><li>👎 1199</li></div>
+"""
 from typing import List
 
 
+# leetcode submit region begin(Prohibit modification and deletion)
 class Solution:
     def removeDuplicates(self, nums: List[int]) -> int:
         # two pointers
-        if not nums:
-            return 0
-        slow = 1
-        for fast in range(1, len(nums)):
-            if nums[fast] != nums[slow]:
-                nums[slow] = nums[fast]
-                slow += 1
-        return slow
-
-
-print(Solution().removeDuplicates([1, 1, 2]))
-print(Solution().removeDuplicates([0, 0, 1, 1, 1, 2, 2, 3, 3, 4]))
+        if len(nums) <= 2:
+            return len(nums)
+        l,r=2,2
+        while r <len(nums):
+            if nums[l-2]!=nums[r]:
+                nums[l]=nums[r]
+                l +=1
+            r +=1
+        return l
 # leetcode submit region end(Prohibit modification and deletion)

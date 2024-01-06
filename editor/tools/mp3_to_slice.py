@@ -39,17 +39,29 @@ def slice_mp3_ffmpeg(input_file, silence_duration=2, output_format="mp3") -> Non
     timestamps = []
     filename = input_file.split('.')[0].split('/')[-1]
     print(f'filename: {filename}', f'result: {result.stderr}')
-    # Parse the output to get the timestamps
+    # Parse the output to get the timestamps and get the Duration of the whole audio file
+    duration = None
     for line in result.stderr.decode('utf-8').split('\n'):
         if 'silence_start' in line:
             timestamps.append(line.split('silence_start: ')[1].split('.')[0])
+        if 'Duration' in line:
+            duration = line.split('Duration: ')[1].split(',')[0]
 
     print(f"Found {len(timestamps)} timestamps: {timestamps}")
+    # if there is only one timestamp, then cut the audio file every 4 minutes in whole audio file
+
+    if len(timestamps) == 1:
+        # Duration: 01:54:20.59,
+        whole_audio_length = int(duration.split(':')[0]) * 60 * 60 + int(duration.split(':')[1]) * 60 + int(
+            duration.split(':')[2].split('.')[0])
+
+        timestamps = [f"{i}" for i in range(0, whole_audio_length, 4 * 60)]
     if not os.path.exists(filename):
         os.mkdir(filename)
     with open(f"{filename}/{filename}.txt", 'w') as f:
         for i, timestamp in enumerate(timestamps):
             f.write(f"{i + 1}. {timestamp}\n")
+
     # Split the audio at the detected timestamps
     for i, timestamp in enumerate(timestamps):
         output_file = f"{filename}/{filename}_{i + 1}.{output_format}"

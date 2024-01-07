@@ -289,7 +289,6 @@ print(Solution().numberOfPowerfulInt(1114,
 """
 0:00:18.437401 prefix:18648545
 4194295
-
 0:00:09.848413 prefix:20000000
 4194295
 0:00:00.000010 prefix:11

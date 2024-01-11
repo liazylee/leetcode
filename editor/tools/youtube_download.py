@@ -56,8 +56,9 @@ class YoutubeDownload:
         if not quality:
             quality = '320kbps'
         for video in self.videos:
-            print(f'download {video.title}, please wait {video.length} seconds')
-            video.streams.get_audio_only().download(self.path, mp3=True)
+            print(
+                f'downloading {video.title}, the abr is {video.streams.get_audio_only().abr}, the bitrate is {video.streams.get_audio_only().bitrate}')
+            video.streams.get_audio_only().download(self.path, timeout=3600, max_retries=3)
 
 
 # Compare this snippet from editor/tools/youtube_download.py:

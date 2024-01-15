@@ -39,17 +39,22 @@ class YoutubeDownload:
             self.title = self.video.title
             self.video_urls = [self.video.streams.get_highest_resolution().url]
             self.videos = [self.video]
-        if not os.path.exists(os.path.join(os.path.expanduser('~'), 'Downloads/youtube')):
-            os.mkdir(os.path.join(os.path.expanduser('~'), 'Downloads/youtube'))
-        self.path = os.path.join(os.path.expanduser('~'), 'Downloads/youtube')
+        if not os.path.exists(os.path.join(os.path.expanduser('~'), f'Downloads/youtube/{self.title}')):
+            os.mkdir(os.path.join(os.path.expanduser('~'), f'Downloads/youtube/{self.title}'))
+        self.path = os.path.join(os.path.expanduser('~'), f'Downloads/youtube/{self.title}')
 
     def download_mp4(self, quality: Optional[str] = None):
         # quality
         if not quality:
             quality = '720p'
         for video in self.videos:
+            print(f'downloading {video.title}, the resolution is {video.streams.get_by_resolution(quality).resolution}')
             video.streams.get_by_resolution(quality).download(self.path, timeout=3600, max_retries=3)
-            video.captions.get_by_language_code('en').download(self.path, )
+            # subtitle
+            if video.captions:
+                print('downloading subtitle',
+                      video.captions)  # {'a.en': <Caption lang="English (auto-generated)" code="a.en">}
+                video.captions['a.en'].download(title=video.title, output_path=self.path)
 
     def download_audio(self, quality: Optional[str] = None):
         # quality

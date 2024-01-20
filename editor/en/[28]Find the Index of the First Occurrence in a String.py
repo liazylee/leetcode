@@ -33,14 +33,7 @@ The first occurrence is at index 0, so we return 0.
 # leetcode submit region begin(Prohibit modification and deletion)
 class Solution:
     def strStr(self, haystack: str, needle: str) -> int:
-        if not needle:
-            return 0
-        if len(needle)>len(haystack):
-            return -1
-        for i in range(len(haystack)-len(needle)+1):
-            if haystack[i:i+len(needle)]==needle:
-                return i
-        return -1
+        return haystack.find(needle)
 
 
 

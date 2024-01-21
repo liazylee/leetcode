@@ -54,7 +54,6 @@ class YoutubeDownload:
             if video.captions:
                 print('downloading subtitle',
                       video.captions)  # {'a.en': <Caption lang="English (auto-generated)" code="a.en">}
-                video.captions['a.en'].download(title=video.title, output_path=self.path)
 
     def download_audio(self, quality: Optional[str] = None):
         # quality

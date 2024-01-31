@@ -49,11 +49,15 @@ class YoutubeDownload:
             quality = '720p'
         for video in self.videos:
             print(f'downloading {video.title}, the resolution is {video.streams.get_by_resolution(quality).resolution}')
-            video.streams.get_by_resolution(quality).download(self.path, timeout=3600, max_retries=3)
+            video.streams.get_by_resolution(quality).download(self.path, timeout=3600, max_retries=1)
             # subtitle
             if video.captions:
                 print('downloading subtitle',
                       video.captions)  # {'a.en': <Caption lang="English (auto-generated)" code="a.en">}
+                if 'en' in video.captions:
+                    video.captions['en'].download(self.path)
+                elif 'zh-Hans' in video.captions:
+                    video.captions['zh-Hans'].download(self.path)
 
     def download_audio(self, quality: Optional[str] = None):
         # quality

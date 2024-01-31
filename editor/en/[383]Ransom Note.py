@@ -43,6 +43,5 @@ class Solution:
         return True
 
 
-print(Solution().canConstruct("aa", "aab"))
-
+tuple
 # leetcode submit region end(Prohibit modification and deletion)

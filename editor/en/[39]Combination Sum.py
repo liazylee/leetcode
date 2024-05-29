@@ -49,17 +49,18 @@ from typing import List
 # leetcode submit region begin(Prohibit modification and deletion)
 class Solution:
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
-        res=[]
+        res = []
         candidates.sort()
-        def dfs(target, index, path):
+        n = len(candidates)
+
+        def dfs(target,index, path):
             if target == 0:
                 res.append(path)
-                return
-            for i in range(index, len(candidates)):
-                if candidates[i] > target:
+            for i in range(index,n):
+                if target < 0:
                     break
-                dfs(target-candidates[i], i, path+[candidates[i]])
-        dfs(target, 0, [])
+                dfs(target - candidates[i],i, path + [candidates[i]])
+
+        dfs(target, 0,[])
         return res
-        
 # leetcode submit region end(Prohibit modification and deletion)
